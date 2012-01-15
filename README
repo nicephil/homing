@@ -1,11 +1,28 @@
 HOMING...
 Description:
 The Spring Festival is coming, we have to fight for one train ticket.
+programmer is crying: let me come back home.... 
 this script is used to grab ticket from 12306.cn
 
 Dependency:
-1) curl 
-2) feh
-3) sed/awk
-4) bash
-5) http://tool.chinaz.com/Tools/URLEncode.aspx for UTF-8 Encoding
+1) curl for posting form to server
+2) feh for checking random code
+3) sed/awk for processing text
+4) bash for running this script
+5) ocrad for optical character recognition
+6) elinks for checking result from server
+7) http://tool.chinaz.com/Tools/URLEncode.aspx for UTF-8 Encoding
+
+
+Usage:
+1) change neccessory information to yours
+2) run it first to get offical station_name_list, then update $from_station_telecode, and $to_station_telecode
+3) run it, and wait for checking random code twice
+
+
+Known Issuses:
+1) ocrad always gets wrong random code from pictures, user has to take care them.
+2) user has to be add station telecode by manually.
+3) user has to be modified the last form, if he wants to buy more than two tickets once
+4) doesn't support net pay yet.
+

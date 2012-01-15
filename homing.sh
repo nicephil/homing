@@ -252,7 +252,7 @@ orderRequest.reserve_flag=A"
 
 curl -k -L -A "$ua" -b "$cookie" -o $page -d "$form" -e "$refer" "$url"
 
-#opera $page
+w3m $page
 exit
 
 # commit

@@ -1,0 +1,11 @@
+HOMING...
+Description:
+The Spring Festival is coming, we have to fight for one train ticket.
+this script is used to grab ticket from 12306.cn
+
+Dependency:
+1) curl 
+2) feh
+3) sed/awk
+4) bash
+5) http://tool.chinaz.com/Tools/URLEncode.aspx for UTF-8 Encoding

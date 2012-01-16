@@ -1,7 +1,7 @@
 #!/bin/bash
 # author: nicephil@gmail.com
 # new version: http://github.com/nicephil/homing.git
-# Dependency: curl, feh, ocrad, sed/awk, bash  
+# Dependency: curl, feh, ocrad, sed/awk, bash, elinks 
 # UTF-8 Encoding can generated from http://tool.chinaz.com/Tools/URLEncode.aspx
 #Zhengzhou=%e9%83%91%e5%b7%9e
 #Hangzhou=%e6%9d%ad%e5%b7%9e
@@ -55,7 +55,8 @@ train_info_detail=train_info.detail
 
 rm -rvf "$cookie" "$page" "$jpg" "$station_name_list" "$train_info_detail"
 
-
+while (( 1 ))
+do
 # get randcode picture
 url="https://dynamic.12306.cn/otsweb/passCodeAction.do?rand=lrand"
 refer="https://dynamic.12306.cn/otsweb/loginAction.do?method=init"
@@ -71,6 +72,7 @@ if [[ "$randcode1" != "" ]]
 then
     randcode=$randcode1
 fi
+killall feh
 echo "randcode=${randcode}"
 
 
@@ -90,10 +92,12 @@ errcode=$?
 if (( $errcode != 0 ))
 then
     echo "=======>LOGIN FAILED"
-    exit -2
+    tail -n 20 $page
 else
     echo "=======>LOGIN OK!"
+    break
 fi
+done
 
 
 # station name list code
@@ -106,9 +110,12 @@ else
     curl -k -L -A "$ua" -b "$cookie" -G -o ${station_name_list} -e "$refer" "$url"
 fi
 
-#w3m ${station_name_list}
+#elinks ${station_name_list}
 #exit
 
+
+while (( 1 ))
+do
 # queryLeftTicket"
 refer="https://dynamic.12306.cn/otsweb/order/querySingleAction.do?method=init"
 url="https://dynamic.12306.cn/otsweb/order/querySingleAction.do?method=queryLeftTicket"
@@ -141,7 +148,7 @@ echo "trainno=${trainno}"
 echo "end_time=${end_time}"
 echo "ypInfoDetail=${ypInfoDetail}"
 
-#w3m $page
+#elinks $page
 #exit 
 
 
@@ -177,7 +184,7 @@ curl -k -L -A "$ua" -b "$cookie" -d "$form" -o $page -e "$refer" "$url"
 token=`sed -n '/TOKEN/p' $page | sed -n 's/^.*value="\([^ "]*\)".*$/\1/gp'`
 echo "token=$token"
 
-#w3m $page
+#elinks $page
 #exit
 
 
@@ -198,6 +205,7 @@ if [[ "$randcode1" != "" ]]
 then
     randcode=$randcode1
 fi
+killall feh
 echo "randcode=${randcode}"
 
 
@@ -252,7 +260,9 @@ orderRequest.reserve_flag=A"
 
 curl -k -L -A "$ua" -b "$cookie" -o $page -d "$form" -e "$refer" "$url"
 
-w3m $page
-exit
+#elinks $page
+#exit
+tail -n 20 $page
+done
 
 # commit
